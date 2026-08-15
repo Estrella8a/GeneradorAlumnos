@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GENERADOR DE ALUMNOS</title>
+
+    <script>  
+
+        const apellidosAlemanes = [
+        "Müller", "Schmidt", "Schneider", "Fischer", "Weber",
+        "Meyer", "Wagner", "Becker", "Schulz", "Hoffmann",
+        "Schäfer", "Koch", "Bauer", "Richter", "Klein",
+        "Wolf", "Schröder", "Neumann", "Schwarz", "Zimmermann",
+        "Braun", "Krüger", "Hofmann", "Hartmann", "Lange",
+        "Schmitt", "Werner", "Schmitz", "Krause", "Lehmann",
+        "Schmid", "Schulze", "Maier", "Köhler", "Herrmann",
+        "König", "Walter", "Mayer", "Huber", "Kaiser",
+        "Fuchs", "Peters", "Lang", "Scholz", "Möller",
+        "Weiß", "Jung", "Hahn", "Schubert", "Vogel",
+        "Friedrich", "Keller", "Günther", "Frank", "Berger",
+        "Roth", "Beck", "Lorenz", "Winkler", "Schuster",
+        "Kraus", "Ludwig", "Böhm", "Krämer", "Jäger",
+        "Otto", "Stein", "Groß", "Sommer", "Seidel",
+        "Heinrich", "Brandt", "Haas", "Schreiber", "Graf",
+        "Dietrich", "Ziegler", "Kuhn", "Pohl", "Engel",
+        "Horn", "Busch", "Bergmann", "Thomas", "Voigt",
+        "Sauer", "Arnold", "Wolff", "Pfeiffer", "Franke",
+        "Hübner", "Cordes", "Rose", "Albrecht", "Schulte",
+        "Kruse", "Wulff", "Bender", "Zimmer", "Bach"
+        ];
+
+         const apellidosEspanoles = [
+        "García", "Rodríguez", "González", "Fernández", "López",
+        "Martínez", "Sánchez", "Pérez", "Gómez", "Martín",
+        "Jiménez", "Ruiz", "Hernández", "Díaz", "Moreno",
+        "Muñoz", "Álvarez", "Romero", "Alonso", "Gutiérrez",
+        "Navarro", "Torres", "Domínguez", "Vázquez", "Ramos",
+        "Gil", "Ramírez", "Serrano", "Blanco", "Molina",
+        "Morales", "Suárez", "Ortega", "Delgado", "Castro",
+        "Ortiz", "Rubio", "Marín", "Sanz", "Núñez", "Iglesias",
+        "Medina", "Garrido", "Cortes", "Castillo", "Santos",
+        "Lozano", "Guerrero", "Cano", "Prieto", "Méndez",
+        "Cruz", "Calvo", "Gallego", "Vidal", "Mendoza",
+        "Aguilar", "Silva", "Vargas", "Liaño", "Flores",
+        "Soto", "Valero", "Rios", "Campos", "Cabrera",
+        "Herrera", "Vega", "Peña", "León", "Márquez",
+        "Fuentes", "Nieto", "Pascual", "Ibañez", "Arias",
+        "Díez", "Caballero", "Reyes", "Duran", "Hidalgo",
+        "Cárdenas", "Benítez", "Navas", "Velasco", "Santana",
+        "Maldonado", "Roldán", "Bermúdez", "Sola", "Giménez",
+        "Fuenzalida", "Vera", "Cordero", "Bravo", "Valdez",
+        "Palacios", "Ochoa", "Villar", "Pardo", "Abril", "Ramos"
+        ];
+
+        const nombresChinos = [
+        "Wei", "Fang", "Xiu", "Li", "Min",
+        "Jing", "Yan", "Qiang", "Lei", "Jun",
+        "Ying", "Tao", "Ping", "Hao", "Fei",
+        "Yang", "Jie", "Xin", "Ning", "Chao",
+        "Huan", "Yue", "Lin", "Peng", "Bo",
+        "Ming", "Zhe", "Rui", "Yu", "Ting",
+        "Sheng", "Kai", "Cheng", "Long", "Gang",
+        "Jian", "Hua", "Zhen", "Biao", "Feng",
+        "Xiang", "Yong", "Chen", "Bo", "An",
+        "Yuan", "Bin", "Yi", "Zhan", "Fan",
+        "Song", "Shuang", "Qing", "Yun", "Na",
+        "Lan", "Hui", "Mei", "Lian", "Xue",
+        "Zhi", "Guang", "Hong", "De", "Quan",
+        "Sheng", "Guo", "Xian", "Wai", "Dian",
+        "Bao", "Shuai", "Gao", "Zong", "Cong",
+        "Lun", "Kuan", "Lian", "He", "Shao",
+        "Han", "Luo", "Sui", "Tian", "Miao",
+        "Zuo", "Cai", "Guan", "Zeng", "Cang",
+        "You", "Kou", "Liao", "Shen", "Rong",
+        "Chu", "Pan", "Tang", "Kang", "Mao"
+        ];
+
+    function generarFecha(){
+        var hoy = new Date(2026, 7, 1);
+        var fMax = new Date(hoy); fMax.setFullYear(2009);
+        var fMin = new Date(hoy); fMin.setFullYear(1961);
+        var f = new Date(fMin.getTime() + Math.random() * (fMax.getTime() - fMin.getTime()));
+        return `${f.getFullYear()}-${String(f.getMonth()+1).padStart(2,'0')}-${String(f.getDate()).padStart(2,'0')}`;
+    }
+        var salida = '';
+        
+    function generar(){
+        salida = 'INSERT INTO alumnos VALUES \n'
+        let cantidad = parseInt(document.getElementById("cantidad").value);
+
+
+        if (cantidad < 1 || cantidad > 50001) {
+            alert("La cantidad debe estar entre 1 y 50001");
+            return;
+        }
+
+        for (let i = 0; i < cantidad; i++) {
+        
+            var esUltimo = (i === cantidad - 1);
+            var terminador = esUltimo ? ';' : ',';
+            
+            salida += `(${23311200+i},'${apellidosAlemanes[Math.floor(Math.random() * 100)]}','${apellidosEspanoles[Math.floor(Math.random() * 100)]}','${nombresChinos[Math.floor(Math.random() * 100)]}','${generarFecha()}','${23311200+i+"@unikino.edu.mx"}')${terminador}\n`;
+        }
+        document.getElementById("resultado").innerHTML=salida;
+    }
+
+    function guardar(){
+
+        elemento = document.createElement("a");
+        elemento.setAttribute("href","data:text/plain;charset=utf-8,"+encodeURIComponent(salida));
+        elemento.setAttribute("download","alumnos.sql");
+        elemento.style.display="none"
+        document.body.appendChild(elemento);
+        elemento.click();
+        document.body.removeChild(elemento);
+
+    }
+
+function cambiar() {
+            const formato = document.getElementById("formato").value;
+            if (formato === "SQL") {
+                document.getElementById("guardar").value = "GUARDAR SQL";
+                document.getElementById("generar").value = "GENERAR ALUMNOS";
+            } else if (formato === "CSV") {
+                document.getElementById("guardar").value = "GUARDAR CSV";
+                document.getElementById("generar").value = "GENERAR CSV";
+            } else if (formato === "JSON") {
+                document.getElementById("guardar").value = "GUARDAR JSON";
+                document.getElementById("generar").value = "GENERAR JSON";
+            }
+        }
+
+function generarFormato() {
+            const formato = document.getElementById("formato").value;
+            if (formato === "SQL") {
+                generar();
+            } else if (formato === "CSV") {
+                generarCSV();
+            } else if (formato === "JSON") {
+                generarJSON();
+            }
+        }
+
+function generarCSV() {
+            let salida = "matricula,primer_apellido,segundo_apellido,nombre,fecha_nacimiento,correo\n";
+            let cantidad = parseInt(document.getElementById("cantidad").value);
+
+            if(cantidad < 1 || cantidad > 50000) {
+                alert("La cantidad debe estar entre 1 y 50,000.");
+                return;
+            }
+
+            for (let i = 0; i < cantidad; i++) {
+                const matricula = 23311200 + i;
+                const primerApellido = apellidosAlemanes[i % apellidosAlemanes.length];
+                const segundoApellido = apellidosEspanoles[i % apellidosEspanoles.length];
+                const nombre = nombresChinos[i % nombresChinos.length];
+                const fechaNacimiento = generarFecha();
+                const correo = `${matricula}@unikino.edu.mx`;
+                salida += `${matricula},${primerApellido},${segundoApellido},${nombre},${fechaNacimiento},${correo}\n`;
+            }
+            document.getElementById("resultado").textContent = salida;
+        }
+
+        function generarJSON() {
+            let alumnos = [];
+            let cantidad = parseInt(document.getElementById("cantidad").value);
+
+            if(cantidad < 1 || cantidad > 50000) {
+                alert("La cantidad debe estar entre 1 y 50,000.");
+                return;
+            }
+
+            for (let i = 0; i < cantidad; i++) {
+                const matricula = 23311200 + i;
+                const primerApellido = apellidosAlemanes[i % apellidosAlemanes.length];
+                const segundoApellido = apellidosEspanoles[i % apellidosEspanoles.length];
+                const nombre = nombresChinos[i % nombresChinos.length];
+                const fechaNacimiento = generarFecha();
+                const correo = `${matricula}@unikino.edu.mx`;
+                alumnos.push({
+                    matricula: matricula,
+                    primerApellido: primerApellido,
+                    segundoApellido: segundoApellido,
+                    nombre: nombre,
+                    fechaNacimiento: fechaNacimiento,
+                    correo: correo
+                });
+            }
+            document.getElementById("resultado").textContent = JSON.stringify(alumnos, null, 2);
+        }
+
+        function guardarFormato() {
+            const formato = document.getElementById("formato").value;
+            let contenido = document.getElementById("resultado").textContent;
+            let nombreArchivo = "";
+
+            if (formato === "SQL") {
+                nombreArchivo = "alumnos.sql";
+            } else if (formato === "CSV") {
+                nombreArchivo = "alumnos.csv";
+            } else if (formato === "JSON") {
+                nombreArchivo = "alumnos.json";
+            }
+
+            const elemento = document.createElement("a");
+            elemento.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(contenido));
+            elemento.setAttribute("download", nombreArchivo);
+            elemento.style.display = "none";
+            document.body.appendChild(elemento);
+            elemento.click();
+            document.body.removeChild(elemento);
+        }
+
+    </script>
+    
+</head>
+<body>
+    <form action = "javascript:generarFormato();">
+    <input type="number" value="1" min="1" max="50001" id="cantidad" required>
+
+    <select onchange="cambiar()" id="formato">
+        <option value="SQL">SQL</option>
+        <option value="CSV">CSV</option>
+        <option value="JSON">JSON</option>
+    </select>
+
+    <input type="button" value="GUARDAR SQL"  id="guardar" onclick="guardarFormato();">
+    <input type="submit" value="GENERAR ALUMNOS SQL" onclick="generar();">
+    </form>
+
+    <pre id="resultado" style="white-space: pre-line;"></pre>
+
+</body>
+</html>
